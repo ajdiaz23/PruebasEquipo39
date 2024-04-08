@@ -1,8 +1,8 @@
 ---
-name: Bug report
-about: Create a report to help us improve
+name: Plantilla para incidencias
+about: Descripción detallada de la incidencia
 title: ''
-labels: bug
+labels: ''
 assignees: ''
 
 ---
