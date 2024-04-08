@@ -7,27 +7,26 @@ assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Comportamiento esperado:**
+Al ubicarse en la página "View site, cuando se quiere activar el selector del modo diurno/nocturno a la opción nocturno, se activa el modo para el menú y para el contenido del lado derecho de la página.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**Comportamiento actual:**
+Al ubicarse en la página "View site, cuando se quiere activar el selector del modo diurno/nocturno a la opción nocturno, solo se activa el modo para el menú, mientras el contenido del lado derecho de la página no muestra el cambio al modo nocturno.
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Pasos a reproducir:**
+1. Ingresar a la página web
+2. Ir a la sección "View site" desde el menú.
+3. Buscar el selector del modo diurno/nocturno en la parte inferior derecha del menú.
+4. Activar el selector en modo nocturno.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Evidencias**
 
-**Environment (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
 
-**Additional context**
-Add any other context about the problem here.
+**Contexto (Ambiente de ejecución):**
+ - Versión de la aplicación: 5.82.0
+ - Sistema operativo: Windows 11
+ - Buscador: Google Chrome
+ - Versión del buscador: 123.0.6312.106 (Build oficial) (64 bits)
+
+**Información adicional:**
+No se reporta.
