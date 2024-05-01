@@ -1,0 +1,15 @@
+{
+  "name": "pruebas_miso4103_2024_12_equipo_21",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cucumber": "^6.0.7",
+    "kraken-node": "^1.0.24"
+  }
+}
