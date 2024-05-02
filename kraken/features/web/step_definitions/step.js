@@ -54,10 +54,6 @@ When('I go to the posts section', async function(){
     return await element.click();    
 })
 
-When ('I select {kraken-string} post', async function(title) {
-    let element = await this.driver.$('h3[class="gh-content-entry-title"]');
-    return await element.click();
-})
 
 When ('I open edit settings', async function(){
     let element = await this.driver.$('button[title="Settings"]');
@@ -93,6 +89,11 @@ When('I add {kraken-string} as page content', async function(content) {
 
 When('I select view page option', async function(){
     let element = await this.driver.$('a[class="post-view-link"]');
+    return await element.click();
+})
+
+When('I validate {kraken-string} is created', async function(title){
+    let element = await this.driver.$('h3[class="gh-content-entry-title"]');
     return await element.click();
 })
 
