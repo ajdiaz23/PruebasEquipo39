@@ -72,8 +72,28 @@ When('I go to pages section', async function() {
     return await element.click();
 })
 
+When('I go to tags section', async function() {
+    let element = await this.driver.$('a[href="#/tags/"]');
+    return await element.click();
+})
+
 When('I select new page option', async function(){
     let element = await this.driver.$('a[href="#/editor/page/"]');
+    return await element.click();
+})
+
+When('I add {kraken-string} as tag name', async function(tag){
+    let element = await this.driver.$('input[id="tag-name"]');
+    return await element.setValue(tag);
+})
+
+When('I create the tag', async function(){
+    let element = await this.driver.$('button[class="gh-btn gh-btn-blue gh-btn-icon ember-view"]');
+    return await element.click();
+})
+
+When('I select new tag option', async function(){
+    let element = await this.driver.$('a[href="#/tags/new/"]');
     return await element.click();
 })
 
@@ -93,7 +113,12 @@ When('I select view page option', async function(){
 })
 
 When('I validate {kraken-string} is created', async function(title){
-    let element = await this.driver.$('h3[class="gh-content-entry-title"]');
+    let element = await this.driver.$$('h3[class="gh-content-entry-title"]');
     return await element.click();
 })
 
+When('I visit {kraken-string} tag page', async function(tag){
+    tag = '/'+tag.toLowerCase().replace(/ /g,"-")+"/";
+    
+    return await this.driver.url("https://ghost-miso41032202412-equipo21.azurewebsites.net/tag"+tag);
+})
