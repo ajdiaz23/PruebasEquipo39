@@ -11,9 +11,11 @@
   "dependencies": {
     "chai": "^5.1.0",
     "cucumber": "^6.0.7",
+    "faker": "^6.6.6",
     "kraken-node": "^1.0.24"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.4.1"
+    "@faker-js/faker": "^8.4.1",
+    "cypress-log-to-output": "^1.1.2"
   }
 }
