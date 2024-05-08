@@ -4,41 +4,43 @@ var tag_name = '';
 
 describe("Create tags", function () {  
     it("Login into ghost site, create a new tag  and validate his creation in tag list", function () {
-        login('/CreateTag/');
-        create_tag('/CreateTag/');
-        validate_tags_list('/CreateTag/');
+        login('/CreateTag/','3-42/');
+        create_tag('/CreateTag/','3-42/');
+        validate_tags_list('/CreateTag/','3-42/');
     });
 });
 
   
-function login(screenshotPath) {
+function login(screenshotPath, version) {
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin");
     cy.wait(1000);
     cy.get('input[name="identification"]').type("af.renteria2@uniandes.edu.co", {
       force: true,
-    }).screenshot(screenshotPath+'typeEmail');
-    cy.get('input[name="password"]').type("1q2w3e4r5t*", { force: true }).screenshot(screenshotPath+'typePass');
+    });
+    cy.get('input[name="password"]').type("1q2w3e4r5t*", { force: true });
+    cy.screenshot(version+screenshotPath+'loginForm');
     cy.get('button[type="submit"]').click({ force: true }).wait(3000);
   }
-function create_tag(screenshotPath) {
+
+function create_tag(screenshotPath, version) {
     cy.contains('Tags').click({ force: true }).wait(3000);
-    cy.screenshot(screenshotPath+'tagSection');
+    cy.screenshot(version+screenshotPath+'tagSection');
     cy.contains('New tag').click({ force: true }).wait(3000);
-    cy.screenshot(screenshotPath+'tagEmptyform');
+    cy.screenshot(version+screenshotPath+'tagEmptyform');
 
     tag_name = faker.lorem.word();
     // Llena el formulario de creación del tag
     cy.get('input[name="name"]').type(tag_name).wait(1000);
-    cy.screenshot(screenshotPath+'tagFormFilled');
+    cy.screenshot(version+screenshotPath+'tagFormFilled');
     cy.contains('Save').click().wait(2000);
-    cy.screenshot(screenshotPath+'tagSaved');
+    cy.screenshot(version+screenshotPath+'tagSaved');
 }
 
 
 
-function validate_tags_list(screenshotPath){
+function validate_tags_list(screenshotPath, version){
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/tags").wait(3000);
-    cy.screenshot(screenshotPath+'publishedTagList');
+    cy.screenshot(version+screenshotPath+'publishedTagList');
     cy.get('h3[class="gh-tag-list-name"]').then(
         ($titles) => {
             let is_tag_created = false;
