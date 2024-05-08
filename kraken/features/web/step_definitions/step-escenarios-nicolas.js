@@ -28,12 +28,12 @@ When('I select add new post', async function() {
     return await element.click();
 });
 
-When('I add {string} as post title', async function(title) {
+When('I add {kraken-string} as post title', async function(title) {
     let element = await this.driver.$('textarea[placeholder="Post Title"]');
     return await element.setValue(title);
 });
 
-When('I add {string} as post content', async function(content) {
+When('I add {kraken-string} as post content', async function(content) {
     let element = await this.driver.$('div[data-placeholder="Begin writing your post..."]');
     return await element.setValue(content);
 });
@@ -70,12 +70,12 @@ When('I select new page option', async function(){
     return await element.click();
 });
 
-When('I add {string} as page title', async function(title) {
+When('I add {kraken-string} as page title', async function(title) {
     let element = await this.driver.$('textarea[placeholder="Page Title"]');
     return await element.setValue(title);
 });
 
-When('I add {string} as page content', async function(content) {
+When('I add {kraken-string} as page content', async function(content) {
     let element = await this.driver.$('div[data-placeholder="Begin writing your page..."]');
     return await element.setValue(content);
 });
@@ -85,7 +85,7 @@ When('I select new tag option', async function(){
     return await element.click();
 });
 
-When('I add {string} as tag name', async function(tag){
+When('I add {kraken-string} as tag name', async function(tag){
     let element = await this.driver.$('input[id="tag-name"]');
     return await element.setValue(tag);
 });
@@ -95,12 +95,12 @@ When('I create the tag', async function(){
     return await element.click();
 });
 
-When('I visit {string} tag page', async function(tag){
+When('I visit {kraken-string} tag page', async function(tag){
     tag = '/'+tag.toLowerCase().replace(/ /g,"-")+"/";
     return await this.driver.url("https://ghost-miso41032202412-equipo21.azurewebsites.net/tag"+tag);
 });
 
-Then('I validate {string} is created', async function(title){
+Then('I validate {kraken-string} is created', async function(title){
     let element = await this.driver.$$('h3[class="gh-content-entry-title"]');
     return await element.click();
 });

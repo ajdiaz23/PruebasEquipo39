@@ -128,3 +128,15 @@ When('I click on Reschedule', async function () {
     let element1 = await this.driver.$('button[class="gh-btn gh-btn-blue gh-publishmenu-button gh-btn-icon ember-view"]');
     await element1.click();
 })
+
+When('I publish the page', async function(){
+    let element = await this.driver.$('div[class="gh-publishmenu ember-view"]');
+    await element.click();
+    element = await this.driver.$('button[class="gh-btn gh-btn-blue gh-publishmenu-button gh-btn-icon ember-view"]');
+    return await element.click();
+})
+
+When('I go to the posts section', async function(){
+    let element = await this.driver.$('a[href="#/posts/"]');
+    return await element.click();    
+})

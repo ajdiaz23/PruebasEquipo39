@@ -5,9 +5,9 @@ Feature: Validación funcionamiento ghost
 Scenario: Como administrador inicio sesión, creo un post y valido que se muestre en la aplicación.
   Given I navigate to page "https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin"
   And I wait for 5 seconds
-  When I enter email "<ADMINUSER>"
+  When I enter email "<USER>"
   And I wait for 2 seconds
-  And I enter password "<ADMINPASSWORD>"
+  And I enter password "<PASSWORD>"
   And I wait for 2 seconds
   And I click next
   And I wait for 7 seconds
@@ -27,9 +27,9 @@ Scenario: Como administrador inicio sesión, creo un post y valido que se muestr
 Scenario: Como administrador inicio sesión, creo una página y valido que se muestre en la aplicación.
   Given I navigate to page "https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin"
   And I wait for 5 seconds
-  When I enter email "<ADMINUSER>"
+  When I enter email "<USER>"
   And I wait for 2 seconds
-  And I enter password "<ADMINPASSWORD>"
+  And I enter password "<PASSWORD>"
   And I wait for 2 seconds
   And I click next
   And I wait for 7 seconds
@@ -49,9 +49,9 @@ Scenario: Como administrador inicio sesión, creo una página y valido que se mu
 Scenario: Como administrador inicio sesión, creo una página y válido que se muestre en el listado de páginas
   Given I navigate to page "https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin"
   And I wait for 5 seconds
-  When I enter email "<ADMINUSER>"
+  When I enter email "<USER>"
   And I wait for 2 seconds
-  And I enter password "<ADMINPASSWORD>"
+  And I enter password "<PASSWORD>"
   And I wait for 2 seconds
   And I click next
   And I wait for 7 seconds
@@ -72,9 +72,9 @@ Scenario: Como administrador inicio sesión, creo una página y válido que se m
 Scenario: Como administrador inicio sesión, creo un post y valido que se muestre en listado de posts.
   Given I navigate to page "https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin"
   And I wait for 5 seconds
-  When I enter email "<ADMINUSER>"
+  When I enter email "<USER>"
   And I wait for 2 seconds
-  And I enter password "<ADMINPASSWORD>"
+  And I enter password "<PASSWORD>"
   And I wait for 2 seconds
   And I click next
   And I wait for 7 seconds
@@ -94,9 +94,9 @@ Scenario: Como administrador inicio sesión, creo un post y valido que se muestr
 Scenario: Como administrador inicio sesión, creo un tag y válido que se haya creado la página del respectivo tag
   Given I navigate to page "https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin"  
   And I wait for 5 seconds
-  When I enter email "<ADMINUSER>"
+  When I enter email "<USER>"
   And I wait for 2 seconds
-  And I enter password "<ADMINPASSWORD>"
+  And I enter password "<PASSWORD>"
   And I wait for 2 seconds
   And I click next
   And I wait for 7 seconds
@@ -105,4 +105,3 @@ Scenario: Como administrador inicio sesión, creo un tag y válido que se haya c
   Then I add "$name" as tag name
   And I create the tag
   And I wait for 7 seconds
-  Then I visit "$name_5" tag page
