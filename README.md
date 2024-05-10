@@ -16,8 +16,18 @@ abra una terminal y ejecute los siguientes comandos:
 - npm init -y
 - npm install -g cypress
 
-y para ejecutar use:
+Si no se ha instalado correctamente cypress y sus respectivos plugins es necesario implementar los siguientes comandos:
 
+- npm install faker
+- npm install -D cypress-log-to-output
+- npm install -D cypress-plugin-tab
+
+Si con el anterior comando no se instala faker para probar todas las pruebas, pruebe con el siguiente comando:
+
+- npm install @faker-js/faker --save-dev
+
+Por ultimo,  para ejecutar las pruebas debe acceder a la carpeta "cypress" y luego en la terminal escribir el comando:
+- cd cypress
 - cypress run --headless
 
 ---

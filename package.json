@@ -1,0 +1,20 @@
+{
+  "name": "pruebas_miso4103_2024_12_equipo_21",
+  "version": "1.0.0",
+  "description": "| Nombre            | Correo                           |\r | ----------------- | -------------------------------- |\r | Axl Díaz          | aj.diaz23@uniandes.edu.co        |\r | Diego Jaramillo   | df.jaramilloa1@uniandes.edu.co   |\r | Nicolas Ibarra    | n.ibarra@uniandes.edu.co         |\r | Andrés Rentería   | af.renteria2@uniandes.edu.co     |\r | ----------------- | -------------------------------- |",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "faker": "^6.6.6"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "cypress-log-to-output": "^1.1.2",
+    "cypress-plugin-tab": "^1.0.5"
+  }
+}

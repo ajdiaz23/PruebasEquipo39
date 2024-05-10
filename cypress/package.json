@@ -10,10 +10,14 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "cypress": "^13.8.1",
-    "cypress-cucumber-preprocessor": "^4.3.1"
+    "cypress-cucumber-preprocessor": "^4.3.1",
+    "cypress-log-to-output": "^1.1.2",
+    "cypress-plugin-tab": "^1.0.5"
   },
   "dependencies": {
-    "faker": "^5.5.3"
+    "faker": "^5.5.3",
+    "faker-js": "^1.0.0"
   }
 }
