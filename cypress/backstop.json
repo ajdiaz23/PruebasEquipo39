@@ -12,8 +12,8 @@
   "scenarios": [
     {
       "label": "Inicio",
-      "url": "https://monitor177.github.io/color-palette/",
-      "referenceUrl": "https://monitor177.github.io/color-palette/",
+      "url": "https://ghost-9y6d.onrender.com/ghost/#/signin",
+      "referenceUrl": "https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin",
       "readyEvent": "",
       "readySelector": "",
       "delay": 0,
@@ -30,8 +30,8 @@
     },
     {
       "label": "Paleta de colores",
-      "url": "https://monitor177.github.io/color-palette/",
-      "referenceUrl": "https://monitor177.github.io/color-palette/",
+      "url": "https://ghost-9y6d.onrender.com/ghost/#/signin",
+      "referenceUrl": "https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin",
       "readyEvent": "",
       "readySelector": "",
       "delay": 0,
