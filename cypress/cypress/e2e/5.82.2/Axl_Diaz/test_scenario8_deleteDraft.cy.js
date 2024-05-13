@@ -6,7 +6,7 @@ const randomDraftName = faker.lorem.word()
 describe('Testing Validación de eliminar un draft', () => {
 
     it('Test login admin', () => {
-        cy.fixture('credentials').then((credentials) => {
+        cy.fixture('credentials').then((credentials2) => {
             // Funcionalidad 3: Login admin
             // Given estando en la login page
             cy.visit(credentials.url)
@@ -21,7 +21,7 @@ describe('Testing Validación de eliminar un draft', () => {
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'login_8_v3',
+                filename: 'login_8_v5',
             });
 
             //Funcionalidad 19: Crear un draft
@@ -33,7 +33,7 @@ describe('Testing Validación de eliminar un draft', () => {
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'posts_8_v3',
+                filename: 'posts_8_v5',
             });
 
             // And dando click al botón "New post" para crear un nuevo post
@@ -46,7 +46,7 @@ describe('Testing Validación de eliminar un draft', () => {
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'new_post_8_v3',
+                filename: 'new_post_8_v5',
             });
 
             // And dando un nombre al post, dando enter y esperando a que lo guarde
@@ -57,7 +57,7 @@ describe('Testing Validación de eliminar un draft', () => {
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'save_8_v3',
+                filename: 'save_8_v5',
             });
 
             //Funcionalidad 20: Ver listado de drafts
@@ -71,7 +71,7 @@ describe('Testing Validación de eliminar un draft', () => {
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'posts2_8_v3',
+                filename: 'posts2_8_v5',
             });
 
             //Funcionalidad 15: Borrar un post
@@ -82,7 +82,7 @@ describe('Testing Validación de eliminar un draft', () => {
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'draft_8_v3',
+                filename: 'draft_8_v5',
             });
 
             // And se hace click en el icono de configuración del draft
@@ -92,7 +92,7 @@ describe('Testing Validación de eliminar un draft', () => {
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'config_8_v3',
+                filename: 'config_8_v5',
             });
 
             // And se da click en la opción "Delete post"
@@ -102,7 +102,7 @@ describe('Testing Validación de eliminar un draft', () => {
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'delete_8_v3',
+                filename: 'delete_8_v5',
             });
 
             // And se confirma el mensaje de advertencia
@@ -112,7 +112,7 @@ describe('Testing Validación de eliminar un draft', () => {
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'confirm_8_v3',
+                filename: 'confirm_8_v5',
             });
 
             // Then ya no debería estar el draft en la lista
@@ -124,7 +124,7 @@ describe('Testing Validación de eliminar un draft', () => {
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'dont_exist_8_v3',
+                filename: 'dont_exist_8_v5',
             });
         });
     });

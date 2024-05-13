@@ -14,7 +14,7 @@ describe("Create tags", function () {
 function login(screenshotPath, version) {
     cy.visit("https://ghost-9y6d.onrender.com/ghost/#/signin");
     cy.wait(1000);
-    cy.get('input[name="identification"]').type("af.renteria2@uniandes.edu.co", {
+    cy.get('input[name="identification"]').type("anferente10@gmail.com", {
       force: true,
     });
     cy.get('input[name="password"]').type("1q2w3e4r5t*", { force: true });

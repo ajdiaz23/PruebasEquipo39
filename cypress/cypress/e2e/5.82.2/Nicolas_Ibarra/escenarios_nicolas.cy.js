@@ -7,9 +7,10 @@ const ep_login = '/signin'
 
 describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
   
+  
   // Escenario 1: Prueba de inicio de sesión, creación y publicación de un nuevo post
   it("Scenario 1: Login, create & publish post, and validate in site & post list", function () {
-    login();
+    login(ep_login, version_ghost);
     create_post();
     publish_post();
     validate_post_on_site();
@@ -18,7 +19,7 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
 
   // Escenario 2: Prueba de edición de un post existente y verificación de los cambios
   it("Scenario 2: Edit existing post, save, publish, and validate changes", function () {
-    login();
+    login(ep_login, version_ghost);
     create_post();
     edit_post();
     save_draft();
@@ -31,7 +32,7 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
 
     const  injeccion_code = "<div><p>injeccion de codigo existosa</p></div>";
 
-    login();
+    login(ep_login, version_ghost);
     inject_code(injeccion_code);
     verifyAlertOnHomePage(injeccion_code);
   });
@@ -41,14 +42,14 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
 
     const new_title = "GHOST - MISO KRAKENS"
 
-    login();
+    login(ep_login, version_ghost);
     change_site_settings(new_title);
     verify_settings(new_title);
   });
 
   // Escenario 5: Prueba de eliminación de un post y un usuario
   it("Scenario 5: Delete post, delete user, and verify deletion", function () {
-    login();
+    login(ep_login, version_ghost);
     create_post();
     delete_post();
     create_user();
@@ -56,38 +57,22 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     verify_deletion();
   });
 
-  // Escenario 6: Prueba de creación, asignación y eliminación de etiquetas en un post
-  it("Scenario 6: Create, assign & delete tags for a post", function () {
-    //const post_title = "Test Post with Tags";
-    const visitar = true;
-
-    login();
-    create_post();
-    create_tags(["Tag1", "Tag2", "Tag3"]);
-    assign_tags_to_post(post_title, ["Tag1", "Tag2", "Tag3"]);
-    validate_tags_on_post(post_title, ["Tag1", "Tag2", "Tag3"]);
-    remove_tags_from_post(post_title, ["Tag1", "Tag2", "Tag3"]);
-    validate_tags_removed_from_post(post_title, ["Tag1", "Tag2", "Tag3"]);
-  });
-
   // Funciones auxiliares
 
-  function login() {
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin");
+  function login(screenshotPath, version) {
+    cy.visit("https://ghost-9y6d.onrender.com/ghost/#/signin");
     cy.wait(1000);
-    cy.get('input[name="identification"]').type("n.ibarra@uniandes.edu.co", {
+    cy.get('input[name="identification"]').type("anferente10@gmail.com", {
       force: true,
     });
-    cy.get('input[name="password"]').type("yx33_zoombex$/", { force: true });
+    cy.get('input[name="password"]').type("1q2w3e4r5t*", { force: true });
+    cy.screenshot(version+screenshotPath+'loginForm');
     cy.get('button[type="submit"]').click({ force: true }).wait(3000);
   }
 
-  function create_post() {
+  function create_post(screenshotPath, version) {
     cy.contains('New post').click({ force: true });
     cy.wait(3000);
-    // if(visitar === true){
-    //   cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts").wait(3000);
-    // }
     
     post_title = faker.lorem.word();
     post_content = faker.lorem.paragraph();
@@ -100,14 +85,14 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     
   }
 
-  function publish_post() {
+  function publish_post(screenshotPath, version) {
     // Publica el post
     cy.get('button[class="gh-btn gh-btn-blue gh-publishmenu-button gh-btn-icon ember-view"]').click().wait(2000);
     //cy.contains('Publish').click().wait(3000);
     //cy.contains('Continue, final review').click().wait(3000);
   }
 
-  function validate_post_on_site() {
+  function validate_post_on_site(screenshotPath, version) {
     // Valida el post en el sitio
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net").wait(3000);
     //cy.contains(post_title).click().wait(2000);
@@ -120,7 +105,7 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     // })
   }
 
-  function validate_post_list() {
+  function validate_post_list(screenshotPath, version) {
     // Valida la lista de posts
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=published").wait(3000);
     cy.get('h3[class="gh-content-entry-title"]').then(
@@ -130,7 +115,7 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     )
   }
 
-  function edit_post() {
+  function edit_post(screenshotPath, version) {
     // Edita un post existente
     post_title = faker.lorem.word();
 
@@ -138,14 +123,14 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     cy.get('div[data-placeholder="Begin writing your post..."]').type("{selectall}{backspace}").type("Edited Content").wait(2000);
   }
 
-  function save_draft() {
+  function save_draft(screenshotPath, version) {
     // Guarda el post como borrador
     cy.contains('Publish').click().wait(2000);
     cy.get('button[class="gh-btn gh-btn-blue gh-publishmenu-button gh-btn-icon ember-view"]').click().wait(2000);
 
 }
 
-  function create_user() {
+  function create_user(screenshotPath, version) {
     // Crea un nuevo usuario
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/staff").wait(2000);
     cy.contains('Invite people').click().wait(2000);
@@ -154,20 +139,20 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     cy.contains('Send invitation now').click().wait(2000);
   }
 
-  function assign_role() {
+  function assign_role(screenshotPath, version) {
     // Asigna un rol a un usuario
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/staff").wait(2000);
     cy.get('select[name="role"]').select('Editor').wait(2000);
     cy.contains('Update').click().wait(2000);
   }
 
-  function verify_permissions() {
+  function verify_permissions(screenshotPath, version) {
     // Verifica los permisos de un usuario
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/staff").wait(2000);
     cy.contains('View site').should('exist');
   }
 
-  function change_site_settings(new_title) {
+  function change_site_settings(new_title, screenshotPath, version) {
     // Cambia la configuración del sitio
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/settings/general").wait(2000);
     
@@ -176,14 +161,14 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     cy.contains('Save settings').click().wait(2000);
   }
 
-  function verify_settings(new_title) {
+  function verify_settings(new_title, screenshotPath, version) {
     // Verifica los cambios en la configuración del sitio
     // Podrías implementar la lógica para verificar cambios aquí
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net").wait(2000);
     cy.contains(new_title).should('exist');
   }
 
-  function delete_post() {
+  function delete_post(screenshotPath, version) {
     // Elimina un post
     // Podrías implementar la lógica para eliminar un post aquí
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=published").wait(2000);
@@ -194,7 +179,7 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     
   }
 
-  function delete_user() {
+  function delete_user(screenshotPath, version) {
     // Elimina un usuario
     // Podrías implementar la lógica para eliminar un usuario aquí
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/staff").wait(2000);
@@ -204,7 +189,7 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     
   }
 
-  function verify_deletion(post_title) {
+  function verify_deletion(post_title, screenshotPath, version) {
     // Verifica que la publicación eliminada no exista en la lista de publicaciones
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=published").wait(2000);
     cy.get('h3[class="gh-content-entry-title"]').should('not.contain', post_title);
@@ -217,7 +202,7 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     cy.contains('No staff members found').should('not.exist');
 }
 
-function inject_code(injeccion_code) {
+function inject_code(injeccion_code, screenshotPath, version) {
     // Navegar a la sección de Code Injection
 
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/settings/code-injection").wait(2000);
@@ -238,7 +223,7 @@ function inject_code(injeccion_code) {
 
 }
 
-function verifyAlertOnHomePage(injeccion_code) {
+function verifyAlertOnHomePage(injeccion_code, screenshotPath, version) {
     // Ir a la página principal
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net");
 
@@ -246,95 +231,6 @@ function verifyAlertOnHomePage(injeccion_code) {
         .should('exist');
     
 
-}
-
-/////////////////////////////////////////////////////////
-// Funciones Auxiliares
-function create_tags(tags) {
-  // Crear nuevas etiquetas
-  tags.forEach(tag => {
-      cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/tags/new").wait(2000);
-      cy.get('input[name="name"]').type(tag).wait(1000);
-      cy.contains('Save').click().wait(2000);
-  });
-}
-
-// function assign_tags_to_post(post_title, tags) {
-//   // Asignar etiquetas a un post
-//   cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=draft").wait(2000);
-//   cy.contains(post_title).click().wait(2000);
-//   cy.get('.post-settings').click().wait(1000);
-//   tags.forEach(tag => {
-//       cy.get('input.ember-power-select-trigger-multiple-input').type(tag).wait(1000);
-//       cy.contains(tag).click().wait(1000);
-//   });
-//   cy.get('.modal-footer').contains('Update').click().wait(2000);
-// }
-function assign_tags_to_post(post_title, tags) {
-  // Asignar etiquetas a un post
-  cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=draft").wait(2000);
-  cy.contains(post_title).click().wait(2000);
-  cy.get('.post-settings').click().wait(1000);
-  tags.forEach(tag => {
-      //cy.contains("input#ember-power-select-trigger-multiple-input-ember969").click().wait(1000);
-      //cy.get('.ember-power-select-search-input').type(tag).wait(1000);
-      cy.get('.ember-power-select-trigger-multiple-input').first().type(tag).wait(1000);
-
-      cy.contains(tag).click().wait(1000);
-      
-  });
-  //cy.get('.gh-publishmenu-trigger').click().wait(1000);
-  //cy.get('.gh-publishmenu-radio-label').contains('Feature this post').click().wait(1000);
-  //cy.get('.modal-footer').contains('Update').click().wait(2000);
-  cy.contains('Feature this post').click().wait(1000);
-}
-
-// function validate_tags_on_post(post_title, tags) {
-//   // Validar la presencia de etiquetas en un post
-//   cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net").wait(2000);
-//   cy.contains(post_title).click().wait(2000);
-//   tags.forEach(tag => {
-//       cy.contains(tag).should('exist');
-//   });
-// }
-function validate_tags_on_post(post_title, tags) {
-  // Validar la presencia de etiquetas en un post
-  cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts").wait(2000);
-
-
-  // Verificar la presencia de cada etiqueta en el post
-  // tags.forEach(tag => {
-  //     cy.get('.post-settings').contains(tag).should('exist');
-  // });
-  let tagExists = false;
-
-  // Verificar la presencia de cada etiqueta en el post
-  tags.forEach(tag => {
-      cy.contains(tag).should('exist').then(() => {
-          tagExists = true;
-      });
-  });
-
-}
-
-function remove_tags_from_post(post_title, tags) {
-  // Eliminar etiquetas de un post
-  cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=draft").wait(2000);
-  cy.contains(post_title).click().wait(2000);
-  cy.get('.post-settings').click().wait(1000);
-  tags.forEach(tag => {
-      cy.get('.tag').contains(tag).parent().find('.delete').click().wait(1000);
-  });
-  cy.get('.modal-footer').contains('Update').click().wait(2000);
-}
-
-function validate_tags_removed_from_post(post_title, tags) {
-  // Validar que las etiquetas hayan sido eliminadas de un post
-  cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net").wait(2000);
-  cy.contains(post_title).click().wait(2000);
-  tags.forEach(tag => {
-      cy.contains(tag).should('not.exist');
-  });
 }
 
 

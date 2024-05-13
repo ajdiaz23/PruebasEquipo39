@@ -10,10 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "faker": "^6.6.6"
+    "faker": "^5.5.3"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
+    "backstopjs": "^6.3.23",
     "cypress-log-to-output": "^1.1.2",
     "cypress-plugin-tab": "^1.0.5"
   }

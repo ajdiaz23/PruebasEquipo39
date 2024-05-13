@@ -2,7 +2,7 @@
 describe('Testing Validación mensaje de error en creación de un tag sin nombre', () => {
     
     it('Test login admin', () => {
-        cy.fixture('credentials').then((credentials) => {
+        cy.fixture('credentials').then((credentials2) => {
         // Funcionalidad 3: Login admin
         // Given estando en la login page
             cy.visit(credentials.url)
@@ -15,7 +15,7 @@ describe('Testing Validación mensaje de error en creación de un tag sin nombre
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'user_login_6_v3',
+                filename: 'user_login_6_v5',
             });
 
             // And clickeando el botón de Sign in
@@ -25,7 +25,7 @@ describe('Testing Validación mensaje de error en creación de un tag sin nombre
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'home_6_v3',
+                filename: 'home_6_v5',
             });
 
             //Funcionalidad 12: Crear tags
@@ -36,7 +36,7 @@ describe('Testing Validación mensaje de error en creación de un tag sin nombre
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'tags1_6_v3',
+                filename: 'tags1_6_v5',
             });
 
             // And se da click al botón "New Tag" para crear un nuevo Tag
@@ -46,7 +46,7 @@ describe('Testing Validación mensaje de error en creación de un tag sin nombre
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'New_Tag_6_v3',
+                filename: 'New_Tag_6_v5',
             });
 
             // And se da intenta guardar el Tag sin nombre
@@ -56,7 +56,7 @@ describe('Testing Validación mensaje de error en creación de un tag sin nombre
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'save_6_v3',
+                filename: 'save_6_v5',
             });
 
             // Then debe mostrarse un mensaje de error que pida especificar el nombre del Tag nuevo
@@ -66,7 +66,7 @@ describe('Testing Validación mensaje de error en creación de un tag sin nombre
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'error_6_v3',
+                filename: 'error_6_v5',
             });
 
             //Funcionalidad 18: Ver listado de tags
@@ -77,7 +77,7 @@ describe('Testing Validación mensaje de error en creación de un tag sin nombre
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'tags2_6_v3',
+                filename: 'tags2_6_v5',
             });
 
             // And debería dejar volver a la opción Tags del menú sin guardar al dar click en "Leave" en el mensaje de advertencia de guardado
@@ -87,7 +87,7 @@ describe('Testing Validación mensaje de error en creación de un tag sin nombre
                 capture: 'fullPage',
                 format: 'png',
                 quality: 80,
-                filename: 'leave_6_v3',
+                filename: 'leave_6_v5',
             });
         });
     });
