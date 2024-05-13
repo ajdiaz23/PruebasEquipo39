@@ -4,18 +4,21 @@ describe("Ghost CMS Test Suite - Diego Jaramillo", function () {
     //11. Como administrador quiero poder modificar un post creado
     it('should update an existing post', () => {
         // Visit the Ghost application
-        cy.visit('https://ghost-miso41032202412-equipo21.azurewebsites.net');
-    
+        cy.visit('https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin');
+        cy.wait(1000);
         // Login to the application
         cy.get('input[name="identification"]').type('df.jaramilloa1@uniandes.edu.co');
         cy.get('input[name="password"]').type('MV8yCmkRPNVgnP_');
         cy.get('button[type="submit"]').click();
-    
+        cy.wait(1000);
         // Wait for the page to load after login
-        cy.contains('Welcome to Ghost').should('be.visible');
+        cy.contains('GHOST - MISO KRAKENS').should('be.visible');
     
+        cy.contains('Posts').click();
+
+        cy.wait(3000);
          // Get all post titles
-        cy.get('.gh-posts-list-title').then($posts => {
+        cy.get('.gh-content-entry-title').then($posts => {
             // Randomly select a post
             const randomIndex = Math.floor(Math.random() * $posts.length);
             const postTitle = $posts[randomIndex].innerText.trim();
@@ -25,19 +28,22 @@ describe("Ghost CMS Test Suite - Diego Jaramillo", function () {
         });
 
         // Edit the post content
-        cy.get('[placeholder="Write your post..."]').clear().type('Updated post content');
+        cy.get('[data-placeholder="Begin writing your post..."]').clear().type('Updated post content');
     
         // Save the changes
-        cy.contains('Save').click();
+        cy.contains('Publish').click()
     
+        
+        cy.get('button[class="gh-btn gh-btn-blue gh-publishmenu-button gh-btn-icon ember-view"]').click().wait(3000);
+
         // Wait for the changes to be saved
-        cy.contains('Post updated').should('be.visible');
+        cy.contains('Published').should('be.visible');
       });
       
       //12. Como administrador quiero poder modificar una página creada
       it('should update an existing page', () => {
         // Visit the Ghost application
-        cy.visit('https://ghost-miso41032202412-equipo21.azurewebsites.net');
+        cy.visit('https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin');
     
         // Login to the application
         cy.get('input[name="identification"]').type('df.jaramilloa1@uniandes.edu.co');
@@ -45,13 +51,13 @@ describe("Ghost CMS Test Suite - Diego Jaramillo", function () {
         cy.get('button[type="submit"]').click();
     
         // Wait for the page to load after login
-        cy.contains('Welcome to Ghost').should('be.visible');
+        cy.contains('GHOST - MISO KRAKENS').should('be.visible');
         
         // Navigate to the Pages section
         cy.contains('Pages').click();
     
         // Wait for the pages to load
-        cy.contains('All pages').should('be.visible');
+        cy.wait(2000)
     
         // Get all page titles
         cy.get('.gh-content-entry-title').then($pages => {
@@ -61,25 +67,33 @@ describe("Ghost CMS Test Suite - Diego Jaramillo", function () {
     
           // Click on the randomly selected page
           cy.contains(pageTitle).click();
-        });
+        });      
     
-        // Wait for the page editor to load
-        cy.contains('Page content').should('be.visible');
-    
-        // Edit the page content
-        cy.get('[placeholder="Write your page..."]').clear().type('Updated page content');
+        // Edit the page content        
+        cy.get('[data-placeholder="Begin writing your page..."]').clear().type('Updated page content');
     
         // Save the changes
-        cy.contains('Save').click();
-    
+        cy.contains('Publish', { matchCase: true }).then(($publish) => {
+          if ($publish.length > 0) {
+            // If "Publish" button is found
+            cy.wrap($publish).click();
+            cy.get('button[class="gh-btn gh-btn-blue gh-publishmenu-button gh-btn-icon ember-view"]').click().wait(3000);
+          } else {
+            // If "Publish" button is not found, try to find "Update"
+            cy.contains('Update', { matchCase: true }).click();
+          }
+        });       
+            
+        
+
         // Wait for the changes to be saved
-        cy.contains('Page updated').should('be.visible');
+        cy.contains('Published').should('be.visible');
       });
 
       //13. Como administrador quiero poder modificar un Tag creado
       it('should update an existing tag', () => {
 
-        cy.visit('https://ghost-miso41032202412-equipo21.azurewebsites.net');
+        cy.visit('https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin');
     
         // Login to the application
         cy.get('input[name="identification"]').type('df.jaramilloa1@uniandes.edu.co');
@@ -87,13 +101,13 @@ describe("Ghost CMS Test Suite - Diego Jaramillo", function () {
         cy.get('button[type="submit"]').click();
     
         // Wait for the page to load after login
-        cy.contains('Welcome to Ghost').should('be.visible');
+        cy.contains('GHOST - MISO KRAKENS').should('be.visible');
     
         // Navigate to the Tags section
         cy.contains('Tags').click();
     
         // Wait for the tags to load
-        cy.contains('All tags').should('be.visible');
+        cy.wait(2000)
     
         // Get all tag names
         cy.get('.gh-tag-list-name').then($tags => {
@@ -106,7 +120,7 @@ describe("Ghost CMS Test Suite - Diego Jaramillo", function () {
         });
     
         // Wait for the tag editor to load
-        cy.contains('Tag name').should('be.visible');
+        cy.contains('BASIC SETTINGS').should('be.visible');
     
         // Edit the tag name
         cy.get('input[name="name"]').clear().type('Updated Tag Name');
@@ -115,13 +129,13 @@ describe("Ghost CMS Test Suite - Diego Jaramillo", function () {
         cy.contains('Save').click();
     
         // Wait for the changes to be saved
-        cy.contains('Tag updated').should('be.visible');
+        cy.contains('Saved').should('be.visible');
       
         });
         //14.Como administrador quiero poder modificar un usuario creado
         it('should update an existing user', () => {
             // Visit the Ghost application
-            cy.visit('https://ghost-miso41032202412-equipo21.azurewebsites.net');
+            cy.visit('https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin');
     
             // Login to the application
             cy.get('input[name="identification"]').type('df.jaramilloa1@uniandes.edu.co');
@@ -129,7 +143,7 @@ describe("Ghost CMS Test Suite - Diego Jaramillo", function () {
             cy.get('button[type="submit"]').click();
         
             // Wait for the page to load after login
-            cy.contains('Welcome to Ghost').should('be.visible');
+            cy.contains('GHOST - MISO KRAKENS').should('be.visible');
         
             // Navigate to the Staff section
             cy.contains('Staff').click();
@@ -164,7 +178,7 @@ describe("Ghost CMS Test Suite - Diego Jaramillo", function () {
           //15.Como administrador quiero poder eliminar un post creado
           it('should delete an existing post', () => {
             // Visit the Ghost application
-            cy.visit('https://ghost-miso41032202412-equipo21.azurewebsites.net');
+            cy.visit('https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin');
     
             // Login to the application
             cy.get('input[name="identification"]').type('df.jaramilloa1@uniandes.edu.co');
@@ -172,7 +186,7 @@ describe("Ghost CMS Test Suite - Diego Jaramillo", function () {
             cy.get('button[type="submit"]').click();
         
             // Wait for the page to load after login
-            cy.contains('Welcome to Ghost').should('be.visible');
+            cy.contains('GHOST - MISO KRAKENS').should('be.visible');
         
             // Navigate to the Posts section
             cy.contains('Posts').click();
