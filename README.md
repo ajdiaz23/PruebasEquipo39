@@ -21,6 +21,8 @@ Si no se ha instalado correctamente cypress y sus respectivos plugins es necesar
 - npm install faker
 - npm install -D cypress-log-to-output
 - npm install -D cypress-plugin-tab
+- npm install neat-csv
+- npm install --save-dev webpack-node-modules-polyfill
 
 Si con el anterior comando no se instala faker para probar todas las pruebas, pruebe con el siguiente comando:
 
@@ -29,6 +31,20 @@ Si con el anterior comando no se instala faker para probar todas las pruebas, pr
 Por ultimo,  para ejecutar las pruebas debe acceder a la carpeta "cypress" y luego en la terminal escribir el comando:
 - cd cypress
 - cypress run --headless
+
+Para ejecutar cypress con interfaz realice los siguientes pasos:
+
+- cd .\cypress
+- root\cypress> cypress open
+- clic en "Add project", escoger la carpeta "cypress" que esta dentro de la primera carpeta "cypress"
+- Dar clic en la seccion o cuadro que menciona "e2e Testing"
+- Dar clic en la seccion o boton que menciona "Start E2E Testing in Chrome"
+- se abrira una ventana donde estaran varias carpetas dentro de la carpeta "cypress/e2e"
+    (Nota: Cada carpeta tiene secciones por los 4 integrantes con los respectivos escenarios creados)
+    - 3.42.9 -> escenarios con pruebas en cypress por cada integrante de la version 3.42.9 de GHOST
+    - 5.82.2 -> escenarios con pruebas en cypress por cada integrante de la version 5.82.2 de GHOST
+    - data-generation -> seccionado por carpetas de cada integrante con las pruebas de data pool seccionado con a-priori, pseudo-random y random. (Aqui se encuentran los 120 escenarios de pruebas)
+- escoger y realizar la prueba por cada escenario de cada integrante dando clic en el archivo con extension ".cy.js". 
 
 ---
 

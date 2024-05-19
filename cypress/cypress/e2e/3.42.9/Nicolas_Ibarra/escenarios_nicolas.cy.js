@@ -9,7 +9,7 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
   
   // Escenario 1: Prueba de inicio de sesión, creación y publicación de un nuevo post
   it("Scenario 1: Login, create & publish post, and validate in site & post list", function () {
-    login();
+    login(ep_login, version_ghost);
     create_post();
     publish_post();
     validate_post_on_site();
@@ -18,7 +18,7 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
 
   // Escenario 2: Prueba de edición de un post existente y verificación de los cambios
   it("Scenario 2: Edit existing post, save, publish, and validate changes", function () {
-    login();
+    login(ep_login, version_ghost);
     create_post();
     edit_post();
     save_draft();
@@ -31,7 +31,7 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
 
     const  injeccion_code = "<div><p>injeccion de codigo existosa</p></div>";
 
-    login();
+    login(ep_login, version_ghost);
     inject_code(injeccion_code);
     verifyAlertOnHomePage(injeccion_code);
   });
@@ -41,14 +41,14 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
 
     const new_title = "GHOST - MISO KRAKENS"
 
-    login();
+    login(ep_login, version_ghost);
     change_site_settings(new_title);
     verify_settings(new_title);
   });
 
   // Escenario 5: Prueba de eliminación de un post y un usuario
   it("Scenario 5: Delete post, delete user, and verify deletion", function () {
-    login();
+    login(ep_login, version_ghost);
     create_post();
     delete_post();
     create_user();
@@ -72,17 +72,18 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
 
   // Funciones auxiliares
 
-  function login() {
+  function login(screenshotPath, version) {
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin");
     cy.wait(1000);
     cy.get('input[name="identification"]').type("n.ibarra@uniandes.edu.co", {
       force: true,
     });
     cy.get('input[name="password"]').type("yx33_zoombex$/", { force: true });
+    cy.screenshot(version+screenshotPath+'loginForm');
     cy.get('button[type="submit"]').click({ force: true }).wait(3000);
   }
 
-  function create_post() {
+  function create_post(screenshotPath, version) {
     cy.contains('New post').click({ force: true });
     cy.wait(3000);
     // if(visitar === true){
@@ -95,21 +96,22 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     cy.get('textarea[placeholder="Post Title"]').type(post_title).wait(3000);
     cy.get('div[data-placeholder="Begin writing your post..."]').type(post_content).wait(3000);
 
+    cy.screenshot(version+screenshotPath+'fillPostForm');
     // Guarda la publicación
     cy.contains('Publish').click().wait(2000);
     
   }
 
-  function publish_post() {
+  function publish_post(screenshotPath, version) {
     // Publica el post
     cy.get('button[class="gh-btn gh-btn-blue gh-publishmenu-button gh-btn-icon ember-view"]').click().wait(2000);
     //cy.contains('Publish').click().wait(3000);
     //cy.contains('Continue, final review').click().wait(3000);
   }
 
-  function validate_post_on_site() {
+  function validate_post_on_site(screenshotPath, version) {
     // Valida el post en el sitio
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net").wait(3000);
+    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net").wait(3000).screenshot(version+screenshotPath+'verifyPost');
     //cy.contains(post_title).click().wait(2000);
     cy.contains(post_title).should('exist');
     // cy.get('h1[class="post-full-title"]').then(($header)=>{
@@ -120,9 +122,9 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     // })
   }
 
-  function validate_post_list() {
+  function validate_post_list(screenshotPath, version) {
     // Valida la lista de posts
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=published").wait(3000);
+    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=published").wait(3000).screenshot(version+screenshotPath+'verifyPostList');
     cy.get('h3[class="gh-content-entry-title"]').then(
         ($titles) => {
             expect($titles[0].innerText).to.equal(post_title)
@@ -130,17 +132,22 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     )
   }
 
-  function edit_post() {
+  function edit_post(screenshotPath, version) {
     // Edita un post existente
     post_title = faker.lorem.word();
 
     cy.get('textarea[placeholder="Post Title"]').type("{selectall}{backspace}").type(post_title).wait(1000);
     cy.get('div[data-placeholder="Begin writing your post..."]').type("{selectall}{backspace}").type("Edited Content").wait(2000);
+
+    cy.screenshot(version+screenshotPath+'editPost');
+
   }
 
-  function save_draft() {
+  function save_draft(screenshotPath, version) {
     // Guarda el post como borrador
     cy.contains('Publish').click().wait(2000);
+    cy.screenshot(version+screenshotPath+'saveDraft');
+
     cy.get('button[class="gh-btn gh-btn-blue gh-publishmenu-button gh-btn-icon ember-view"]').click().wait(2000);
 
 }
@@ -151,6 +158,9 @@ describe("Ghost CMS Test Suite - Nicolas Ibarra", function () {
     cy.contains('Invite people').click().wait(2000);
     const email = faker.internet.email();
     cy.get('input[name="email"]').type(email, { force: true }).wait(1000);
+
+    cy.screenshot(version+screenshotPath+'createUser');
+
     cy.contains('Send invitation now').click().wait(2000);
   }
 
