@@ -26,6 +26,7 @@ Si no se ha instalado correctamente cypress y sus respectivos plugins es necesar
 
 Si con el anterior comando no se instala faker para probar todas las pruebas, pruebe con el siguiente comando:
 
+- npm install cypress --save-dev
 - npm install @faker-js/faker --save-dev
 
 Por ultimo,  para ejecutar las pruebas debe acceder a la carpeta "cypress" y luego en la terminal escribir el comando:
