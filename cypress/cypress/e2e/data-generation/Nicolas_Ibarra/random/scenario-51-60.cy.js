@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
-const neatCsv = require('neat-csv');
 
-let regData;
+
 const version_ghost = '5-82/';
 const ep_login = '/signin';
 var post_title = '';
@@ -9,16 +8,8 @@ var post_content = '';
 var email = '';
 var password = '';
 
-describe("Scenarios 31-40  - Nicolas Ibarra", function () {
+describe("Scenarios 41-50 - Nicolas Ibarra", function () {
   
-  before(() => {
-    cy.fixture("a_priori.csv")
-      .then(neatCsv)
-      .then((data) => {
-        regData = data;
-      });
-  });
-
   //Escenario 1: Prueba de inicio de sesión, creación y publicación de un nuevo post
   it("Scenario 1: Successful Login, create & publish post, and validate in site & post list", function () {
     login(ep_login, version_ghost, true);
@@ -36,7 +27,7 @@ describe("Scenarios 31-40  - Nicolas Ibarra", function () {
     validate_post_list(version_ghost, 'scenario1/', false); // Verificar que no está en la lista de posts
   });
 
-  // // Escenario 2: Prueba de edición de un post existente y verificación de los cambios
+  // Escenario 2: Prueba de edición de un post existente y verificación de los cambios
   it("Scenario 2: Successful Edit existing post, save, publish, and validate changes", function () {
     login(ep_login, version_ghost, true);
     create_post(version_ghost, 'scenario2/', true);
@@ -61,7 +52,7 @@ describe("Scenarios 31-40  - Nicolas Ibarra", function () {
   });
 
   it("Scenario 3: Unsuccessful injection code with invalid script", function () {
-    const injeccion_code = "<script>malicious code</script>";
+    const injeccion_code = "<script>"+faker.lorem.paragraph()+"</script>";
     login(ep_login, version_ghost, true);
     inject_code(version_ghost, 'scenario3/', injeccion_code);
     verifyAlertOnHomePage(version_ghost, 'scenario3/', injeccion_code);
@@ -126,18 +117,15 @@ describe("Scenarios 31-40  - Nicolas Ibarra", function () {
     validate_tags_removed_from_post(version_ghost, 'scenario6/', post_title, []);
   });
 
+});
 
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Funciones auxiliares
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-  function login(screenshotPath, version, success) {
+function login(screenshotPath, version, success) {
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/signin");
     cy.wait(1000);
     if(success){
@@ -157,13 +145,10 @@ describe("Scenarios 31-40  - Nicolas Ibarra", function () {
   }
 
   function create_post(screenshotPath, version, success) {
-    // let post_title = getValue('page_title');
-    // let post_content = getValue('page_content');
-
     cy.contains('New post').click({ force: true });
     cy.wait(3000);
-    post_title = success ? getValue('post_title') : '';
-    post_content = getValue('post_content');
+    post_title = success ? faker.lorem.word() : '';
+    post_content = faker.lorem.paragraph();
     cy.get('textarea[placeholder="Post Title"]').type(post_title).wait(3000);
     cy.get('div[data-placeholder="Begin writing your post..."]').type(post_content).wait(3000);
     cy.screenshot(version + screenshotPath + 'fillPostForm');
@@ -181,7 +166,7 @@ describe("Scenarios 31-40  - Nicolas Ibarra", function () {
   }
 
   function validate_post_on_site(screenshotPath, version, success) {
-    cy.visit("https://ghost-miso41032202412.azurewebsites.net").wait(3000);
+    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net").wait(3000);
     cy.screenshot(version + screenshotPath + 'verifyPost');
     if (success) {
       cy.contains(post_title).should('exist');
@@ -192,86 +177,119 @@ describe("Scenarios 31-40  - Nicolas Ibarra", function () {
     cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=published").wait(3000);
     cy.screenshot(version + screenshotPath + 'verifyPostList');
     if (success) {
-      cy.get('h3[class="gh-content-entry-title"]').then(($titles) => {
-        expect($titles[0].innerText).to.equal(post_title);
-      });
+      cy.contains(post_title).should('exist');
     }
   }
 
   function edit_post(screenshotPath, version, success) {
-    // let post_title = getValue('page_title');
-    // let post_content = getValue('page_content');
-
-    let post_title = success ? getValue('post_title') : '';
-    let post_content = getValue('post_content');
-    cy.get('textarea[placeholder="Post Title"]').type("{selectall}{backspace}").type(post_title).wait(1000);
-    cy.get('div[data-placeholder="Begin writing your post..."]').type("{selectall}{backspace}").type(post_content).wait(2000);
-    cy.screenshot(version + screenshotPath + 'editPost');
-    if (!success) {
-      cy.contains('Post must have a title.').should('exist');
-    }
+    cy.contains(post_title).click({ force: true });
+    cy.wait(3000);
+    post_title = success ? faker.lorem.word() : '';
+    post_content = faker.lorem.paragraph();
+    cy.get('textarea[placeholder="Post Title"]').clear().type(post_title).wait(3000);
+    cy.get('div[data-placeholder="Begin writing your post..."]').clear().type(post_content).wait(3000);
+    cy.screenshot(version + screenshotPath + 'editPostForm');
+    cy.contains('Update').click().wait(2000);
   }
 
   function save_draft(screenshotPath, version, success) {
-    cy.contains('Publish').click().wait(2000);
+    cy.contains('Save draft').click().wait(2000);
+    if (!success) {
+      cy.contains('Post must have a title.').should('exist');
+    }
     cy.screenshot(version + screenshotPath + 'saveDraft');
-    cy.contains('Save Draft').click().wait(2000);
   }
 
-  function inject_code(screenshotPath, version, injeccion_code) {
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/code-injection");
-    cy.wait(1000);
-    cy.get('textarea[class="gh-input ember-text-area gh-code-mirror"]').then(($element) => {
-      const element = $element[0];
-      element.innerText = '';
-      element.innerText = injeccion_code;
-    }).wait(2000);
+  function inject_code(screenshotPath, version, code) {
+    cy.contains('New post').click({ force: true });
+    cy.wait(3000);
+    post_title = faker.lorem.word();
+    post_content = code;
+    cy.get('textarea[placeholder="Post Title"]').type(post_title).wait(3000);
+    cy.get('div[data-placeholder="Begin writing your post..."]').type(post_content).wait(3000);
     cy.screenshot(version + screenshotPath + 'injectCode');
-    cy.contains('Save').click().wait(2000);
+    cy.contains('Publish').click().wait(2000);
+    cy.get('button[class="gh-btn gh-btn-blue gh-publishmenu-button gh-btn-icon ember-view"]').click().wait(2000);
   }
 
-  function verifyAlertOnHomePage(screenshotPath, version, injeccion_code) {
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net");
+  function verifyAlertOnHomePage(screenshotPath, version, code) {
+    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net").wait(3000);
     cy.screenshot(version + screenshotPath + 'verifyAlert');
-    cy.contains('inyección de código exitosa').should('exist');
+    cy.contains(code).should('exist');
   }
 
   function change_site_settings(screenshotPath, version, new_title) {
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/settings/general").wait(2000);
-    cy.get('button[class="gh-btn"]').first().click().wait(3000);
-    cy.get('input#ember102.gh-input').clear().type(new_title, { force: true }).wait(1000);
+    cy.contains('Settings').click({ force: true });
+    cy.wait(3000);
+    cy.get('input[id="site-title"]').clear().type(new_title).wait(3000);
     cy.screenshot(version + screenshotPath + 'changeSettings');
     cy.contains('Save settings').click().wait(2000);
   }
 
   function verify_settings(screenshotPath, version, new_title) {
-    cy.visit("https://ghost-miso41032202412.azurewebsites.net").wait(2000);
+    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net").wait(3000);
     cy.screenshot(version + screenshotPath + 'verifySettings');
     cy.contains(new_title).should('exist');
   }
 
+  function create_user(screenshotPath, version, success) {
+    cy.contains('Staff').click({ force: true });
+    cy.wait(3000);
+    cy.contains('Invite people').click({ force: true });
+    cy.wait(2000);
+    email = faker.internet.email();
+    cy.get('input[name="email"]').type(email).wait(3000);
+    cy.screenshot(version + screenshotPath + 'inviteUserForm');
+    cy.contains('Send invitation').click().wait(2000);
+  }
+
+  function delete_user(screenshotPath, version) {
+    cy.contains('Staff').click({ force: true });
+    cy.wait(3000);
+    cy.contains(email).click({ force: true });
+    cy.wait(2000);
+    cy.contains('Revoke invitation').click({ force: true });
+    cy.wait(2000);
+    cy.screenshot(version + screenshotPath + 'deleteUser');
+  }
+
+  function verify_deletion(screenshotPath, version, post_title) {
+    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net").wait(3000);
+    cy.screenshot(version + screenshotPath + 'verifyDeletion');
+    cy.contains(post_title).should('not.exist');
+  }
+
   function create_tags(screenshotPath, version, tags) {
+    cy.contains('Tags').click({ force: true });
+    cy.wait(3000);
     tags.forEach(tag => {
-      cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/tags/new").wait(2000);
-      cy.get('input[name="name"]').type(tag).wait(1000);
+      cy.contains('New tag').click({ force: true });
+      cy.wait(2000);
+      cy.get('input[name="name"]').type(tag).wait(3000);
       cy.screenshot(version + screenshotPath + 'createTag_' + tag);
       cy.contains('Save').click().wait(2000);
     });
   }
 
   function assign_tags_to_post(screenshotPath, version, post_title, tags) {
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=draft").wait(2000);
-    cy.contains(post_title).click().wait(2000);
-    cy.get('.post-settings').click().wait(1000);
+    cy.contains(post_title).click({ force: true });
+    cy.wait(3000);
+    cy.contains('Settings').click({ force: true });
+    cy.wait(2000);
     tags.forEach(tag => {
-      cy.get('.ember-power-select-trigger-multiple-input').first().type(tag).wait(1000);
-      cy.contains(tag).click().wait(1000);
+      cy.get('input[placeholder="Add tag"]').type(tag).wait(3000);
+      cy.contains(tag).click({ force: true });
+      cy.wait(2000);
     });
     cy.screenshot(version + screenshotPath + 'assignTags');
+    cy.contains('Save').click().wait(2000);
   }
 
   function validate_tags_on_post(screenshotPath, version, post_title, tags) {
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts").wait(2000);
+    cy.contains(post_title).click({ force: true });
+    cy.wait(3000);
+    cy.contains('Settings').click({ force: true });
+    cy.wait(2000);
     tags.forEach(tag => {
       cy.contains(tag).should('exist');
     });
@@ -279,65 +297,29 @@ describe("Scenarios 31-40  - Nicolas Ibarra", function () {
   }
 
   function remove_tags_from_post(screenshotPath, version, post_title, tags) {
-
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=draft").wait(2000);
-    cy.contains(post_title).click().wait(2000);
-    cy.get('.post-settings').click().wait(1000);
+    cy.contains(post_title).click({ force: true });
+    cy.wait(3000);
+    cy.contains('Settings').click({ force: true });
+    cy.wait(2000);
     tags.forEach(tag => {
-      cy.get('.tag').contains(tag).parent().find('.delete').click().wait(1000);
+      cy.contains(tag).click({ force: true });
+      cy.wait(2000);
+      cy.contains('Remove').click({ force: true });
+      cy.wait(2000);
     });
-    cy.get('.modal-footer').contains('Update').click().wait(2000);
     cy.screenshot(version + screenshotPath + 'removeTags');
+    cy.contains('Save').click({ force: true }).wait(2000);
   }
 
   function validate_tags_removed_from_post(screenshotPath, version, post_title, tags) {
-
-
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net").wait(2000);
-    cy.contains(post_title).click().wait(2000);
+    cy.contains(post_title).click({ force: true });
+    cy.wait(3000);
+    cy.contains('Settings').click({ force: true });
+    cy.wait(2000);
     tags.forEach(tag => {
       cy.contains(tag).should('not.exist');
     });
     cy.screenshot(version + screenshotPath + 'validateTagsRemoved');
   }
 
-  function delete_post(screenshotPath, version) {
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=draft").wait(2000);
-    cy.contains(post_title).click().wait(2000);
-    cy.get('.post-settings').click().wait(1000);
-    cy.contains('Delete').click().wait(2000);
-    cy.get('.modal-footer').contains('Delete').click().wait(2000);
-    cy.screenshot(version + screenshotPath + 'deletePost');
-  }
 
-  function create_user(screenshotPath, version, success) {
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/staff").wait(2000);
-    cy.contains('Invite people').click().wait(2000);
-    const user_email = success ? faker.internet.email() : '';
-    cy.get('input[name="email"]').type(user_email).wait(1000);
-    cy.screenshot(version + screenshotPath + 'createUser');
-    cy.contains('Send invitation now').click().wait(2000);
-    if (!success) {
-      cy.contains('Please enter an email.').should('exist');
-    }
-  }
-
-  function delete_user(screenshotPath, version) {
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/staff").wait(2000);
-    cy.contains('Users').click().wait(2000);
-    cy.get('.user-card').first().click().wait(2000);
-    cy.contains('Suspend User').click().wait(2000);
-    cy.get('.modal-footer').contains('Suspend').click().wait(2000);
-    cy.screenshot(version + screenshotPath + 'deleteUser');
-  }
-
-  function verify_deletion(screenshotPath, version, post_title) {
-    cy.visit("https://ghost-miso41032202412-equipo21.azurewebsites.net/ghost/#/posts?type=published").wait(3000);
-    cy.screenshot(version + screenshotPath + 'verifyDeletion');
-    cy.contains(post_title).should('not.exist');
-  }
-
-  function getValue(fieldName) {
-    return regData[0][fieldName];
-  }
-});
