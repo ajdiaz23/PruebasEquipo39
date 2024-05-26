@@ -47,6 +47,8 @@ Para ejecutar cypress con interfaz realice los siguientes pasos:
     - data-generation -> seccionado por carpetas de cada integrante con las pruebas de data pool seccionado con a-priori, pseudo-random y random. (Aqui se encuentran los 120 escenarios de pruebas)
 - escoger y realizar la prueba por cada escenario de cada integrante dando clic en el archivo con extension ".cy.js". 
 
+A continuación un link para poder realizarlo con una parte gráfica para correr las pruebas en cypress:
+- https://uniandes-my.sharepoint.com/:v:/g/personal/n_ibarra_uniandes_edu_co/EbYxunneqPtJtKPWMpj_W44BzGwMFg3C-4QR2ojCErCZIg?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=iTaBog  
 ---
 
 # Instrucciones para la instalación y ejecución de las pruebas con kraken
